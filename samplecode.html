@@ -54,7 +54,9 @@
                     <a href="https://github.com/CourtWard" class="icon brands fa-github" target="_blank"></a>
                     <a href="https://azzuuwish.itch.io/" class="icon brands fa-itch-io" target="_blank"></a>
                 </h2>
-                <p><a href="#sqlqueries">SQL Queries</a> &bull; <a href="#linuxclientserver">Basic Client-Server Program (C | Linux)</a> &bull; <a href="#linuxclientserver">Basic Client-Server Program (C | Linux)</a> &bull; <a href="#linuxclientserver">Basic Client-Server Program (C | Linux)</a></p>
+                <a href="#sqlqueries" class="special">SQL Queries</a> 
+                <a href="#lex" class="special">Recursive Descent Parser and Lexical Analyzer (Java)</a> 
+                <a href="#linuxclientserver" class="special">Basic Client-Server Program (C | Linux)</a>
 
             </div>
         </section>
@@ -70,7 +72,8 @@
                     <div class="content">
                         <a href="#sqlqueries"><h2 class="major">SQL Queries</h2></a>
                         <p>
-                            The following SQL queries were created for a database of a competitive swimming organization. The database contains information about swimmers, their caretakers, their participation in events and meets, and their history of performance levels. The queries demonstrate various SQL concepts such as JOINs, GROUP BY, HAVING, CTEs, and EXCEPT.
+                            SQL | MySQL</p>
+                            <p>The following SQL queries were created for a database of a competitive swimming organization. The database contains information about swimmers, their caretakers, their participation in events and meets, and their history of performance levels. The queries demonstrate various SQL concepts such as JOINs, GROUP BY, HAVING, CTEs, and EXCEPT.
                         </p>
                         <h3>Query to obtain the names of all primary and secondary caretakers of every swimmer.</h3>
 <pre><code>SELECT CONCAT(s.fname, ' ', s.lname) AS swimmer, CONCAT(c.fname, ' ', c.lname) AS caretaker, 'primary' AS `type`
@@ -80,8 +83,8 @@ SELECT CONCAT(s.fname, ' ', s.lname) AS swimmer, CONCAT(c.fname, ' ', c.lname) A
 FROM caretaker AS c RIGHT JOIN othercaretaker AS o USING (CT_Id) LEFT JOIN swimmer AS s USING (SwimmerId)
 ORDER BY swimmer;</code></pre>
 
-<h3>Query to obtain the names of swimmers who have committed to participating in both a '50M Butterfly' and a '100M Butterfly' event.</h3>
-                        
+                        <h3>Query to obtain the names of swimmers who have committed to participating in both a '50M Butterfly' and a '100M Butterfly' event.</h3>
+
 <pre><code>WITH t1 AS (SELECT CONCAT(s.FName, ' ', s.LName) AS swimmer, e.Title
 FROM swimmer AS s INNER JOIN participation AS p USING(swimmerId) INNER JOIN event AS e USING(eventId)
 WHERE p.`Committed` = 1 AND e.Title = '100M Butterfly'),
@@ -91,7 +94,7 @@ WHERE p.`Committed` = 1 AND e.Title = '50M Butterfly')
 SELECT DISTINCT t1.swimmer
 FROM t1 INNER JOIN t2 USING (swimmer);</code></pre>
 
-<h3>Query to obtain the names of all swimmers who do not have the last name 'Khan' and have participated in three or more events. Include the total numbers of events they each have participated in.</h3>
+                        <h3>Query to obtain the names of all swimmers who do not have the last name 'Khan' and have participated in three or more events. Include the total numbers of events they each have participated in.</h3>
 
 <pre><code>WITH t1 AS (SELECT CONCAT(s.FName, ' ', s.LName) AS Swimmer, s.SwimmerId FROM swimmer AS s WHERE s.lname != 'Khan' )
 SELECT t1.Swimmer, COUNT(p.EventId) AS `Number of Events`
@@ -100,7 +103,7 @@ WHERE p.SwimmerId = t1.SwimmerId
 GROUP BY Swimmer
 HAVING COUNT(p.EventId) >= 4;</code></pre>
 
-<h3>Query to obtain a list of all swimmers who have participated in three or more events, including a '50M Butterfly' event but not a '200M Freestyle' event.</h3>
+                        <h3>Query to obtain a list of all swimmers who have participated in three or more events, including a '50M Butterfly' event but not a '200M Freestyle' event.</h3>
 <pre><code>WITH T1 AS (SELECT CONCAT(s.FName, ' ', s.LName) AS Swimmer, s.SwimmerId, COUNT(p.EventId) AS `Number of Events` FROM participation AS p INNER JOIN swimmer AS s USING (SwimmerId) GROUP BY swimmer HAVING COUNT(p.EventId) >= 3),
 T2 AS (SELECT DISTINCT p.SwimmerId, e.Title FROM participation AS p INNER JOIN event AS e USING (EventId) WHERE e.Title = '50M Butterfly'),
 T3 AS (SELECT DISTINCT p.SwimmerId, e.Title FROM participation AS p INNER JOIN event AS e USING (EventId) WHERE e.Title = '200M Freestyle')
@@ -112,22 +115,198 @@ SELECT DISTINCT T1.Swimmer, T1.`Number of Events` FROM T1 INNER JOIN T3 USING (S
                     </div>
                 </div>
             </section><!-- End SQL -->
-            <!-- Linux C Client-Server Program -->
-            <section class="wrapper spotlight style1"></section>
-            <section id="linuxclientserver" class="wrapper spotlight alt style1">
+
+            <!-- Lexical Analyzer and Parser -->
+            <section class="wrapper style1"></section>
+            <section id="lex" class="wrapper alt style1">
                 <div class="inner">
                     <div class="content">
-                        <a href="#linuxclientserver"><h2 class="major">Basic Client-Server Program</h2></a>
-                        <p>C | Linux</p>
+                        <a href="#lex"><h2 class="major">Recursive Descent Parser and Lexical Analyzer</h2></a>
                         <p>
-                            The following two code snippets come from a basic client-server program created in C for Linux.
-                            The Client and Server programs run independently and concurrently to perform simple inter-process communication (IPC) using FIFOs/named pipes.
-                            The original project files can be seen in <a href="https://github.com/CourtWard/Client-Server-Program-in-C-for-Linux">this repository</a>.
+                            Java
+                        </p>
+                        <a href="https://github.com/CourtWard/Lexical-Analyzer-and-Recursive-Descent-Parser" class="special" target="_blank">See Project Repository</a>
+
+                        <p>
+                            Select methods from a lexical analyzer and a recursive descent parser created to work with a small mock programming language.
+                        </p>
+                        <h2>Select helper methods for the Lexical Analyzer</h2>
+                        <a href="https://github.com/CourtWard/Lexical-Analyzer-and-Recursive-Descent-Parser/blob/main/RecursiveDescentParser/src/recursivedescentparser/LexicalAnalyzer.java" class="special" target="_blank">See Full Lexical Analyzer Code</a>
+                        <pre><code>
+    /*------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
+    File Handling Methods
+    --------------------------------------------------------------------------------
+    ------------------------------------------------------------------------------*/
+
+    /*------------------------------------------------------------------------------
+    getFileName() - method to get file name
+    ------------------------------------------------------------------------------*/
+    private String getFileName()
+    {
+    Scanner myInput = new Scanner(System.in);
+    System.out.println("Enter text file's path, including .txt suffix.");
+    return myInput.nextLine();
+    }
+
+    /*------------------------------------------------------------------------------
+    openFile() - method to open file
+    ------------------------------------------------------------------------------*/
+    private Boolean openFile()
+    {
+    try
+    {
+    myCode = new FileReader(getFileName());
+    myReader = new BufferedReader(myCode);
+    return true;
+    }
+    catch (FileNotFoundException e)
+    {
+    System.out.println("File not found.");
+    return false;
+    }
+    }
+
+    /*------------------------------------------------------------------------------
+    closeFile() - method to close file
+    ------------------------------------------------------------------------------*/
+    private void closeFile()
+    {
+    try
+    {
+    myReader.close();
+    myCode.close();
+    System.out.println("\nParse Completed Successfully. \nClosing File.");
+    }
+    catch (IOException e)
+    {
+    System.out.println("File cannot be closed.");
+    }
+    }
+
+    /*------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
+    ERROR Method
+    --------------------------------------------------------------------------------
+    ------------------------------------------------------------------------------*/
+    private void ERROR(String errorType, String errorMsg)
+    {
+    System.out.printf("\n%s on Line %d.\n%s\nCannot complete parse.\n", errorType, lineNum, errorMsg);
+    System.exit(0);
+    }
+    </code></pre>
+                        <a href="https://github.com/CourtWard/Lexical-Analyzer-and-Recursive-Descent-Parser/blob/main/RecursiveDescentParser/src/recursivedescentparser/LexicalAnalyzer.java" class="special" target="_blank">See Full Lexical Analyzer Code</a>
+                    </div>
+                    </div>
+                        <div class="inner">
+                            <div class="content">
+
+                                <h2>Select Helper Methods for the Recursive Descent Parser</h2>
+                                <a href="https://github.com/CourtWard/Lexical-Analyzer-and-Recursive-Descent-Parser/blob/main/RecursiveDescentParser/src/recursivedescentparser/RecursiveDescentParser.java" class="special" target="_blank">See Full Recursive Descent Parser Code</a>
+
+                                <pre><code>
+    /*------------------------------------------------------------------------------
+    ERROR() - Method for outputting error statements & exiting program
+    ------------------------------------------------------------------------------*/
+    private static void ERROR(String errorType, String errorMsg)
+    {
+    System.out.printf("\n%s in Line %d.\n%s\nCannot complete parse.\n", errorType, code.lineNum, errorMsg);
+    System.exit(0);
+    }
+
+    /*------------------------------------------------------------------------------
+    ERROR() - Method for outputting error statements & exiting program
+    ------------------------------------------------------------------------------*/
+    private static void PARSEERROR(String expectedLex)
+    {
+    System.out.printf("\nPARSE ERROR in Line %d.\nExpected %s, got '%s'.\nCannot complete parse.\n", code.lineNum, expectedLex, code.lexeme);
+    System.exit(0);
+    }
+
+    /*------------------------------------------------------------------------------
+    isValidID() - Method to check if ID valid:
+    Valid/True if in declar section & not exist in table
+    Valid/True if in stmt section & does exist in table
+    Else, invalid - produces error
+    ------------------------------------------------------------------------------*/
+    private static boolean isValidID(String ID)
+    {
+    //Check if ID in table
+    //(Designed to only search ID_Table once for efficiency)
+    if (ID_Table.contains(ID))
+    {
+    //If ID exists, only valid in statement section, not declaration section
+    if (!isSTMT)
+    {
+    ERROR("REDECLARATION ERROR", "'" + code.lexeme +
+    "' has already been declared. Cannot redeclare it.");
+    return false;
+    }
+
+    else {return isSTMT;}
+    }
+    else
+    {
+    //If ID doesn't exist - only valid if declaration section, not statement
+    if (isSTMT)
+    {
+    ERROR("UNDECLARED IDENTIFIER ERROR", "Cannot use variable '" +
+    code.lexeme + "' before it is declared.");
+    return false;
+    }
+    else {return !isSTMT;}
+    }
+    }
+</code></pre>
+                            <a href="https://github.com/CourtWard/Lexical-Analyzer-and-Recursive-Descent-Parser/blob/main/RecursiveDescentParser/src/recursivedescentparser/RecursiveDescentParser.java" class="special" target="_blank">See Full Recursive Descent Parser Code</a>
+                            <a href="#" class="special">Return to Top</a>
+                        </div>
+                    </div>
+            </section> <!-- End Lex Section -->
+
+            <!-- Network Message Board -->
+            <!--<section class="wrapper spotlight style1"></section>
+            <section id="code2" class="wrapper spotlight alt style1">
+                <div class="inner">
+                    <div class="content">
+                        <a href="#bio"><h2 class="major">code2</h2></a>
+                        <p>
+                            Project description goes here.
                         </p>
                         <div class="row">
                             <div class="col-6 col-12-medium">
+                                <h3>Left Code Heading</h3>
+                                <pre><code></code></pre>
+                            </div>
+                            <div class="col-6 col-12-medium">
+                                <h3>Right Code Heading</h3>
+                                <pre><code></code></pre>
+                            </div>
+                        </div>
+                       
+                        <a href="#" class="special">Return to Top</a>
+                    </div>
+                </div>
+            </section>--> <!-- End network msg board Section -->
+
+            <!-- Linux C Client-Server Program -->
+            <section class="wrapper spotlight style1"></section>
+            <section id="linuxclientserver" class="wrapper alt spotlight style1">
+                <div class="inner">
+                    <div class="content">
+                        <a href="#linuxclientserver"><h2 class="major">Basic Client-Server Program</h2></a>
+                        <p>C | Linux </p>
+                        <a href="https://github.com/CourtWard/Client-Server-Program-in-C-for-Linux" class="special" target="_blank">See Project Repository</a>
+
+                        <p>
+                            The following two code snippets come from a basic client-server program created in C for Linux.
+                            The Client and Server programs run independently and concurrently to perform simple inter-process communication (IPC) using FIFOs/named pipes.
+                        </p>
+
+                        <div class="row">
+                            <div class="col-6 col-12-medium">
                                 <h3>Client Code Snippet</h3>
-                                <a href="https://github.com/CourtWard/Client-Server-Program-in-C-for-Linux/blob/main/OSProg1Client.c">View Full Code</a>
+                                <a href="https://github.com/CourtWard/Client-Server-Program-in-C-for-Linux/blob/main/OSProg1Client.c" class="special" target="_blank">View Full Code</a>
                                 <pre><code class="language-c">// Loop & Condition control
 // Set false by terminate
 bool terminate = false;
@@ -347,7 +526,7 @@ printf("System Call Result:\n%s\n\n", sysResponse.msg);
 
                             <div class="col-6 col-12-medium">
                                 <h3>Server Code Snippet</h3>
-                                <a href="https://github.com/CourtWard/Client-Server-Program-in-C-for-Linux/blob/main/OSProg1Server.c">View Full Code</a>
+                                <a href="https://github.com/CourtWard/Client-Server-Program-in-C-for-Linux/blob/main/OSProg1Server.c" class="special" target="_blank">View Full Code</a>
                                 <pre><code>/* Protocol for Client to Server Msgs */
 typedef struct SysCall
 {
@@ -558,40 +737,7 @@ if (strcmp(numbers[i], num) == 0)
                     </div>
                 </div>
             </section><!-- End Linux C Client-Server Program -->
-
-
-            <section class="wrapper style1"></section>
-            <section id="code2" class="wrapper alt style1">
-                <div class="inner">
-                    <!-- <a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a> -->
-                    <div class="content">
-                        <a href="#bio"><h2 class="major">code2</h2></a>
-                        <p>
-                            Project description goes here.
-                        </p>
-                        <div class="row">
-                            <div class="col-6 col-12-medium">
-                                <h3>Left Code Heading</h3>
-                                <pre><code>function greetMe(name) {
-    console.log("Hello, " + name);
-    }</code></pre>
-                            </div>
-                            <div class="col-6 col-12-medium">
-                                <h3>Right Code Heading</h3>
-                                <pre><code>function greetMe(name) {
-  console.log("Hello, " + name);
-}</code></pre>
-                            </div>
-                        </div>
-                        <p>The video and images below showcase the various features of the Web Chef Application.</p>
-                        <video controls class="inner"><source src="video/WebChefDemo.mp4" type="video/mp4">Your browser does not support the video tag.</video>
-                        <a href="#" class="special">Return to Top</a>
-                    </div>
-                </div>
-            </section>
-
-
-
+            <!--Sections for css formatting only-->
             <section class="wrapper spotlight style1"></section>
             <section class="wrapper spotlight alt style1"></section>
 
