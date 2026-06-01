@@ -1,0 +1,607 @@
+<!DOCTYPE HTML>
+<!--
+    This site was designed using the following template:
+        Solid State by HTML5 UP
+        html5up.net | @ajlkn
+        Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>Courtney Ward's Code Samples</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+</head>
+
+<body class="is-preload">
+
+    <!-- Page Wrapper -->
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header" class="alt">
+            <h1><a href="index.html">Courtney Ward's Code Samples</a></h1>
+            <nav>
+                <a href="#menu">Menu</a>
+            </nav>
+        </header>
+
+        <!-- Menu -->
+        <nav id="menu">
+            <div class="inner">
+                <h2>Menu</h2>
+                <ul class="links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#bio">Bio</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="samplecode.html">Sample Code</a></li>
+                </ul>
+                <a href="#" class="close">Close</a>
+            </div>
+        </nav>
+
+        <!-- Banner -->
+        <section id="banner">
+            <a href="https://courtward.github.io/" class="special">Return to Courtney Ward's Portfolio</a>
+            <div class="inner">
+
+                <h2>
+                    Courtney Ward's Code Samples
+                    <br />
+                    <a href="https://www.linkedin.com/in/courtneymlward/" class="icon brands fa-linkedin" target="_blank"></a>
+                    <a href="https://github.com/CourtWard" class="icon brands fa-github" target="_blank"></a>
+                    <a href="https://azzuuwish.itch.io/" class="icon brands fa-itch-io" target="_blank"></a>
+                </h2>
+                <p><a href="#linuxclientserver">Basic Client-Server Program (C | Linux)</a> &bull; <a href="#linuxclientserver">Basic Client-Server Program (C | Linux)</a> &bull; <a href="#linuxclientserver">Basic Client-Server Program (C | Linux)</a> &bull; <a href="#linuxclientserver">Basic Client-Server Program (C | Linux)</a></p>
+
+            </div>
+        </section>
+
+
+        <!-- Wrapper -->
+        <section id="wrapper">
+
+            <!-- SQL -->
+            <section class="wrapper spotlight style1"></section>
+            <section id="code3" class="wrapper spotlight alt style1">
+                <div class="inner">
+                    <div class="content">
+                        <a href="#sql"><h2 class="major">SQL Queries</h2></a>
+                        <p>
+                            Project description goes here.
+                        </p>
+                        <div class="row">
+                            <div class="col-6 col-12-medium">
+                                <h3>Left Code Heading</h3>
+                                <pre><code>function greetMe(name) {
+    console.log("Hello, " + name);
+    }</code></pre>
+                            </div>
+                            <div class="col-6 col-12-medium">
+                                <h3>Right Code Heading</h3>
+                                <pre><code>function greetMe(name) {
+  console.log("Hello, " + name);
+}</code></pre>
+                            </div>
+                        </div>
+                        <a href="#" class="special">Return to Top</a>
+                    </div>
+                </div>
+            </section><!-- End SQL -->
+            <!-- Linux C Client-Server Program -->
+            <section class="wrapper spotlight style1"></section>
+            <section id="linuxclientserver" class="wrapper spotlight alt style1">
+                <div class="inner">
+                    <div class="content">
+                        <a href="#linuxclientserver"><h2 class="major">Basic Client-Server Program</h2></a>
+                        <p>C | Linux</p>
+                        <p>
+                            The following two code snippets come from a basic client-server program created in C for Linux.
+                            The Client and Server programs run independently and concurrently to perform simple inter-process communication (IPC) using FIFOs/named pipes.
+                            The original project files can be seen in <a href="https://github.com/CourtWard/Client-Server-Program-in-C-for-Linux">this repository</a>.
+                        </p>
+                        <div class="row">
+                            <div class="col-6 col-12-medium">
+                                <h3>Client Code Snippet</h3>
+                                <a href="https://github.com/CourtWard/Client-Server-Program-in-C-for-Linux/blob/main/OSProg1Client.c">View Full Code</a>
+                                <pre><code class="language-c">// Loop & Condition control
+// Set false by terminate
+bool terminate = false;
+// Set false by quit
+bool activeUser = true;
+bool newUser = true;
+
+/* Protocol for Client to Server Msgs */
+typedef struct SysCall
+{
+int clientNum;
+int callNum;
+int numParam;
+int sizeParams[MAX_NUM_PARAM];
+char params[MAX_NUM_PARAM][MAX_SIZE_PARAM+1];
+}SysCall;
+
+/* Protocol for Server to Client Msgs */
+typedef struct RtnVal
+{
+char msg[300];
+}RtnVal;
+
+/* Protocol instances */
+struct SysCall nextCall;
+struct RtnVal sysResponse;
+
+/* Used to debug/verify system call data being sent */
+void printSysCall (SysCall *callToPrint);
+
+int main()
+{
+/* loop through multiple users until one terminates program */
+while (!terminate)
+{
+// Reset bools for new user
+activeUser = true;
+newUser = true;
+
+// Update user number (limit pid length to 3 digits to make filename fit char[13])
+pid += 1;
+if (pid > 999 || pid < 0)
+{ pid = 1; }
+
+//Add leading zeros to file name to make number 3 digits
+if (pid < 10)
+{sprintf(userFifo, "%s%s%d", FIFO, "00", pid);}
+else if (pid < 100)
+{sprintf(userFifo, "%s%s%d", FIFO, "0", pid);}
+else if (pid < 1000)
+{sprintf(userFifo, "%s%d", FIFO, pid);}
+
+printf("Preparing for new user.\n\n");
+printf("New User FIFO: %s\n", userFifo);
+
+//Open server FIFO in Write mode
+writefd = open(FIFO0, O_WRONLY, 0);
+printf("Opened server FIFO write Mode.\n");
+
+//Create Own input fifo
+mkfifo(userFifo, 420);
+printf("Input FIFO created.\n");
+
+
+
+
+// loop menu for single user
+while (activeUser)
+{
+//If new user, set up connection
+if(newUser)
+{
+//Ensure setup happens only once per user
+newUser = false;
+//Prepare syscall for setup
+nextCall.clientNum = pid;
+nextCall.callNum = 1;
+nextCall.numParam = 1;
+nextCall.sizeParams[0] = 13;
+for (int i = 0; i < nextCall.sizeParams[0]; i++)
+{
+nextCall.params[0][i] = userFifo[i];
+}
+
+// Provide client fifo address to server via server FIFO
+// Show & Send system call struct to server
+//printSysCall(&nextCall); //used for debugging
+write(writefd, &nextCall, sizeof(struct SysCall));
+
+printf("Opening client FIFO read Mode.\n");
+// Will block until Server opens this fifo in write mode
+readfd = open(userFifo, O_RDONLY, 0); //wait for server to connect & send
+printf("Client FIFO Opened by Server in Write Mode.\nBlock Removed.\n\n\n");
+printf("Server connection ready for user input.\n\n");
+} //End client setup
+// If not new user, ask user what to do
+else
+{
+printf("What would you like to do?\n\n1. Make System Call\n2. Exit\n3. Terminate Server & Exit\n\nEnter Selection Number: ");
+scanf("%d", &menuOption);
+
+
+switch (menuOption)
+{
+case 1:
+printf("Make System Call Selected\n\n");
+
+bool invalidChoice = true;
+while (invalidChoice)
+{
+printf("What System Call do you want to make?\n\n1. Number to Text\n2. Text to Number\n3. Store Data\n4. Recall Data\n\nEnter Selection Number: ");
+int choice;
+choice = getValidInt(1,4);
+if (choice == -1)
+{
+invalidChoice = true;
+}
+else
+{
+nextCall.callNum = choice;
+invalidChoice = false;
+}
+} //End client main system request menu
+
+printf("You entered: %d\n", nextCall.callNum);
+// Update call nums menu numbers 1-4 to be 2-5 system call numbers
+nextCall.callNum += 1;
+
+/* Skip setting Parameters */
+if (nextCall.callNum == 5)
+{
+nextCall.numParam = 0;
+} //Finish no parameter condition
+
+/* Get Parameters */
+else
+{
+invalidChoice = true;
+while (invalidChoice)
+{
+printf("How Many Parameters?\n(Must be less than %d)\n", MAX_NUM_PARAM);
+int numP;
+numP = getValidInt(0,MAX_NUM_PARAM);
+if (numP == -1)
+{
+invalidChoice = true;
+}
+else
+{
+nextCall.numParam = numP;
+invalidChoice = false;
+}
+}
+
+printf("Number of Parameters: %d\n\n", nextCall.numParam);
+
+// n is index for parameter
+for (int n = 0; n < nextCall.numParam; n++)
+
+{
+printf("Provide Parameter %d:\n(%d characters or less)\n", n + 1, MAX_SIZE_PARAM);
+scanf("%25s", nextCall.params[n]);
+scanf(CLEARBUFFER); //clear any characters over 25
+
+nextCall.sizeParams[n] = strlen(nextCall.params[n]);
+printf("The size of input is %d\n", nextCall.sizeParams[n]);
+
+// m is index for c in parameter string
+for(int m=0; m < nextCall.sizeParams[n]; m++)
+{
+printf("%c", nextCall.params[n][m]);
+}
+printf("\n");
+}
+} // finish collect parameter condition
+
+break;
+
+/* Exit */
+case 2:
+nextCall.callNum = 0;
+nextCall.numParam = 0;
+
+// set bool to break inner loop & go to next user
+activeUser = false;
+
+break;
+
+/* Terminate */
+case 3:
+nextCall.callNum = -1;
+nextCall.numParam = 0;
+
+// Set bools to break both loops
+activeUser = false;
+terminate = true;
+break;
+
+default:
+printf("Invalid menu option.\nReturning to Menu.\n\n");
+//discard input up to newline - takes care of removing non int values before next scan
+scanf(CLEARBUFFER);
+}// end menu switch case
+//printSysCall(&nextCall);//used for debugging
+
+// Send system call struct to server
+write(writefd, &nextCall, sizeof(struct SysCall));
+
+// Read system response if system call made
+if (menuOption == 1)
+{
+read(readfd, &sysResponse, sizeof(RtnVal));
+printf("System Call Result:\n%s\n\n", sysResponse.msg);
+}}//end else for non new user
+} // end loop for current user System Calls (exit loop on exit or terminate conditions)</code></pre>
+                            </div>
+
+                            <div class="col-6 col-12-medium">
+                                <h3>Server Code Snippet</h3>
+                                <a href="https://github.com/CourtWard/Client-Server-Program-in-C-for-Linux/blob/main/OSProg1Server.c">View Full Code</a>
+                                <pre><code>/* Protocol for Client to Server Msgs */
+typedef struct SysCall
+{
+int clientNum;
+int callNum;
+int numParam;
+int sizeParams[MAX_NUM_PARAM];
+char params[MAX_NUM_PARAM][MAX_SIZE_PARAM+1];
+}SysCall;
+
+/* Struct to hold data for current client */
+typedef struct client
+{
+char clientFIFO[13];
+int clientPid;
+char storedData[MAX_NUM_PARAM][MAX_SIZE_PARAM+1];
+int countStoredData;
+}client;
+
+/* Protocol for Server to Client Msgs */
+typedef struct RtnVal
+{
+char msg[300];
+
+}RtnVal;
+
+/* Struct Instances */
+SysCall currentCall;
+client currentClient;
+RtnVal sysResponse;
+
+/* Prints formatted system call */
+void printSysCall (SysCall *callToPrint);
+
+/* Data & Functions for Number-Word Translations */
+char numbers[10][2]={"0","1","2","3","4","5","6","7","8","9"};
+char numWords[10][6] = {"zero","one","two","three","four","five","six","seven","eight","nine"};
+int wordToNum(char word[]);
+int numToWord(char num[]);
+
+int main()
+{
+//Create well-known/receiving fifo
+mkfifo(FIFO0, 420);
+printf("Well-known FIFO created.\n");
+
+// Open receiving FIFO in Read mode
+// Will block until client opens this fifo in write mode
+printf("Opening Well-known FIFO Read Mode.\n");
+readfd = open(FIFO0, O_RDONLY, 0);
+printf("\nWell-known FIFO Opened by Client in Write Mode.\nBlock Removed.\n\n");
+
+//Loop Control
+bool terminate = false;
+bool quit = false;
+
+/* Loop through users */
+while (!terminate)
+{
+/* Loop through single user's system calls */
+while (!quit)
+{
+//Read & Display System call
+printf("Waiting for Client Input \n\n");
+read(readfd, &currentCall, sizeof(struct SysCall));
+printSysCall(&currentCall);
+
+/* Handles all possible system call numbers */
+switch (currentCall.callNum)
+{
+/* Connect server & client */
+case 1:
+//Get address for client fifo
+strcpy(currentClient.clientFIFO, currentCall.params[0]);
+currentClient.clientPid = currentCall.clientNum;
+// for (int i = 0; i < currentCall.sizeParams[0]; i++)
+// {
+//     currentClient.clientFIFO[i] = currentCall.params[0][i];
+// }
+//Open client fifo in write mode
+writefd = open(currentClient.clientFIFO, O_WRONLY, 0);
+printf("Opened client FIFO write Mode.\n\n");
+break;
+/* Terminate Server & Client */
+case -1:
+terminate = true;
+/* Quit: Current Client Connection */
+case 0:
+quit = true;
+break;
+/* Convert int number 0-9 to English string word for number */
+case 2:
+int wordIndex = numToWord(currentCall.params[0]);
+if (wordIndex == -1)
+{
+//sysResponse.msgLen = 0;
+strcpy(sysResponse.msg, "Error: Provided input was not a number 0-9.\n");
+}
+else
+{
+//sysResponse.msgLen = strlen(numWords[wordIndex]);
+strcpy(sysResponse.msg, numWords[wordIndex]);
+
+}
+write(writefd, &sysResponse, sizeof(RtnVal));
+break;
+/* Convert English string word for number 0-9 to int number */
+case 3:
+int numIndex = wordToNum(currentCall.params[0]);
+if (numIndex == -1)
+{
+//sysResponse.msgLen = 0;
+strcpy(sysResponse.msg, "Error: Provided input was not the English word for a number 0-9.\n");
+}
+else
+{
+//sysResponse.msgLen = strlen(numWords[wordIndex]);
+strcpy(sysResponse.msg, numbers[numIndex]);
+}
+write(writefd, &sysResponse, sizeof(RtnVal));
+break;
+/* Store Value */
+case 4:
+currentClient.countStoredData = currentCall.numParam;
+strcpy(sysResponse.msg, "The following data was stored: \n");
+for (int i=0; i < currentCall.numParam; i++)
+{
+strcpy(currentClient.storedData[i], currentCall.params[i]);
+strcat(sysResponse.msg, currentClient.storedData[i]);
+strcat(sysResponse.msg, "\n");
+}
+write(writefd, &sysResponse, sizeof(RtnVal));
+break;
+
+/* Return Stored Value */
+case 5:
+strcpy(sysResponse.msg, "Retrieved the following data from storage: \n");
+for (int i=0; i < currentClient.countStoredData; i++)
+{
+strcat(sysResponse.msg, currentClient.storedData[i]);
+strcat(sysResponse.msg, "\n");
+}
+currentClient.countStoredData = 0;
+printf("Sending data:\n%s\n", sysResponse.msg);
+write(writefd, &sysResponse, sizeof(RtnVal));
+break;
+default:
+printf("Invalid system call.");
+
+}// End switch case
+
+}// end quit loop
+//Close client fifo
+printf("Closing & Deleting client FIFO.\n");
+unlink(currentClient.clientFIFO);
+quit = false;
+} // end terminate loop
+// Close server fifo & Terminate server program
+printf("Closing & Deleting server FIFO.\n");
+unlink(FIFO0);
+printf("FIFOs closed & deleted.\nServer program terminating.\n");
+return 0;
+}
+
+/* Prints to screen formatted system call from struct data */
+void printSysCall (SysCall *callToPrint)
+{
+printf("\n\nSystem Call Received:\n\n");
+printf("Client Number: %d\n", callToPrint->clientNum);
+printf("Call Number: %d\n", callToPrint->callNum);
+printf("Number of Parameters: %d\n", callToPrint->numParam);
+for (int i = 0; i < callToPrint->numParam; i++)
+{
+printf("\nParameter %d\n", i+1);
+printf("\tSize: %d   Value: ", callToPrint->sizeParams[i]);
+printf("%s\n", callToPrint->params[i]);
+printf("\n");
+}
+printf("\n\n");
+}
+
+/*Look up string in number array & return number as int or -1 for error*/
+int wordToNum(char word[])
+{
+for (int i = 0; i < sizeof(numWords); i++)
+{
+if (strcmp(numWords[i], word) == 0)
+{ return i; }
+}
+{ return -1; }
+}
+
+/*Look up integer 0-9 in string form to find & return index of English word for number or -1 for error*/
+int numToWord(char num[])
+{
+for (int i = 0; i < sizeof(numbers); i++)
+{
+if (strcmp(numbers[i], num) == 0)
+{ return i; }
+}
+{ return -1; }
+}</code></pre>
+                            </div>
+                        </div>
+                        <p>The video below showcase the client and server programs in action.</p>
+                        <video controls class="inner"><source src="https://github.com/CourtWard/Client-Server-Program-in-C-for-Linux/raw/refs/heads/main/Screencast%20from%2009-20-2024%2004_48_36%20PM.webm" type="video/webm">Your browser does not support the video tag.</video>
+                        <a href="#" class="special">Return to Top</a>
+                    </div>
+                </div>
+            </section><!-- End Linux C Client-Server Program -->
+
+
+            <section class="wrapper style1"></section>
+            <section id="code2" class="wrapper alt style1">
+                <div class="inner">
+                    <!-- <a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a> -->
+                    <div class="content">
+                        <a href="#bio"><h2 class="major">code2</h2></a>
+                        <p>
+                            Project description goes here.
+                        </p>
+                        <div class="row">
+                            <div class="col-6 col-12-medium">
+                                <h3>Left Code Heading</h3>
+                                <pre><code>function greetMe(name) {
+    console.log("Hello, " + name);
+    }</code></pre>
+                            </div>
+                            <div class="col-6 col-12-medium">
+                                <h3>Right Code Heading</h3>
+                                <pre><code>function greetMe(name) {
+  console.log("Hello, " + name);
+}</code></pre>
+                            </div>
+                        </div>
+                        <p>The video and images below showcase the various features of the Web Chef Application.</p>
+                        <video controls class="inner"><source src="video/WebChefDemo.mp4" type="video/mp4">Your browser does not support the video tag.</video>
+                        <a href="#" class="special">Return to Top</a>
+                    </div>
+                </div>
+            </section>
+
+
+
+            <section class="wrapper spotlight style1"></section>
+            <section class="wrapper spotlight alt style1"></section>
+
+            <a href="#" class="special align-center">Return to Top</a>
+
+        </section> <!-- end wrapper -->
+        <!-- Footer -->
+        <section id="footer">
+            <div class="inner">
+                <ul class="copyright">
+                    <li>&copy; <a href="https://courtward.github.io/">Courtney Ward</a> All rights reserved.</li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/courtneymlward/" class="icon brands fa-linkedin" target="_blank"></a>
+                        &nbsp;&nbsp;<a href="https://github.com/CourtWard" class="icon brands fa-github" target="_blank"></a>
+                        &nbsp;&nbsp;<a href="https://azzuuwish.itch.io/" class="icon brands fa-itch-io" target="_blank"></a>
+                    </li>
+                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>
